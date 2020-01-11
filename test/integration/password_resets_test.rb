@@ -11,7 +11,7 @@ class PasswordResetsTest < ActionDispatch::IntegrationTest
     get new_password_reset_path
     assert_template 'password_resets/new'
     #メールアドレスが無効
-    post password_resets_path, params: { password_resets: { email: "" }}
+    post password_resets_path, params: { password_reset: { email: "" } }
     assert_not flash.empty?
     assert_template 'password_resets/new'
     # メールアドレスが有効
@@ -23,7 +23,7 @@ class PasswordResetsTest < ActionDispatch::IntegrationTest
     #パスワード再設定フォームのテスト
     user = assigns(:user)
     #メールアドレスが無効
-    ger edit_password_reset_path(user.reset_token, email: "")
+    get edit_password_reset_path(user.reset_token, email: "")
     assert_redirected_to root_url
     # 無効なユーザー
     user.toggle!(:activated)
